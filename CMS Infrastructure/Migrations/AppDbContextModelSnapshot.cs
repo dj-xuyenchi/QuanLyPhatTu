@@ -38,8 +38,8 @@ namespace CMS_Infrastructure.Migrations
                     b.Property<string>("TenChua")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TruTri")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TruTriId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -85,6 +85,9 @@ namespace CMS_Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("DaoTrangId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("NgayGuiDon")
                         .HasColumnType("datetime2");
 
@@ -101,6 +104,8 @@ namespace CMS_Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DaoTrangId");
 
                     b.HasIndex("PhatTuId");
 
@@ -227,11 +232,17 @@ namespace CMS_Infrastructure.Migrations
 
             modelBuilder.Entity("CMS_Core.Entities.DonDangKy", b =>
                 {
+                    b.HasOne("CMS_Core.Entities.DaoTrang", "DaoTrang")
+                        .WithMany()
+                        .HasForeignKey("DaoTrangId");
+
                     b.HasOne("CMS_Core.Entities.PhatTu", "PhatTu")
                         .WithMany()
                         .HasForeignKey("PhatTuId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("DaoTrang");
 
                     b.Navigation("PhatTu");
                 });

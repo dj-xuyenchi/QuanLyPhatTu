@@ -16,7 +16,7 @@ namespace CMS_Infrastructure.Migrations
                     TenChua = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NgayThanhLap = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DiaChi = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TruTri = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TruTriId = table.Column<int>(type: "int", nullable: false),
                     CapNhat = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -111,11 +111,18 @@ namespace CMS_Infrastructure.Migrations
                     TrangThaiDon = table.Column<int>(type: "int", nullable: false),
                     NgayGuiDon = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NgaySuLy = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NguoiSuLyId = table.Column<int>(type: "int", nullable: true)
+                    NguoiSuLyId = table.Column<int>(type: "int", nullable: true),
+                    DaoTrangId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DonDangKy", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DonDangKy_DaoTrang_DaoTrangId",
+                        column: x => x.DaoTrangId,
+                        principalTable: "DaoTrang",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DonDangKy_PhatTu_PhatTuId",
                         column: x => x.PhatTuId,
@@ -156,6 +163,11 @@ namespace CMS_Infrastructure.Migrations
                 name: "IX_DaoTrang_NguoiChuTriId",
                 table: "DaoTrang",
                 column: "NguoiChuTriId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DonDangKy_DaoTrangId",
+                table: "DonDangKy",
+                column: "DaoTrangId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DonDangKy_PhatTuId",

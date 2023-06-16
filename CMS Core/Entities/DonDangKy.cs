@@ -15,5 +15,7 @@ namespace CMS_Core.Entities
         public DateTime NgayGuiDon { get; set; }
         public DateTime NgaySuLy { get; set; }
         public int? NguoiSuLyId { get; set; }
+        public int? DaoTrangId { get; set; }
+        public DaoTrang? DaoTrang { get; set; }
     }
 }
